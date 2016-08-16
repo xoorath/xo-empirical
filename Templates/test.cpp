@@ -7,7 +7,16 @@
 #else
 #   include <x86intrin.h>
 #endif
+#if defined(__clang__) && defined(_WIN32)
+#   include <windows.h>
+#   define SleepSeconds(x) Sleep(x*1000)
+#else
+#   define SleepSeconds(x) this_thread::sleep_for(chrono::seconds(x))
+#endif
 // %includes%
+
+#define NAME_A "" // %test0.name%
+#define NAME_B "" // %test1.name%
 
 using namespace std;
 
@@ -44,8 +53,11 @@ void TestB() {
 #pragma clang optimize on
 
 int main() {
-    cout << "==========Starting test." << endl;
-    
+    cout << "========== Starting test.\n";
+    cout << "comparing:\n\t";
+    cout << NAME_A << "\n\t";
+    cout << NAME_B << endl;
+
     std::thread threadA(&TestA);
     std::thread threadB(&TestB);
 
@@ -53,8 +65,8 @@ int main() {
     TestStarted = true;
 
     for(int i = 0; i < seconds; ++i) {
-        cout << "Testing... " << seconds - i << endl;
-        this_thread::sleep_for(chrono::seconds(1));
+        cout << "Running test. " << (seconds - i) << " seconds remain." << endl;
+        SleepSeconds(1);
     }
 
     TestFinished = true;
@@ -62,10 +74,15 @@ int main() {
     threadA.join();
     threadB.join();
 
-    cout << "TestA: " << TestACount << endl;
-    cout << "TestB: " << TestBCount << endl;
+    double secondsA = (double)seconds / (double)TestACount;
+    double nanoSecondsA = secondsA * 1.0e+9;
+    double secondsB = (double)seconds / (double)TestBCount;
+    double nanoSecondsB = secondsB * 1.0e+9;
+    cout.precision(3);
+    cout << NAME_A << ":\n\t" << fixed << nanoSecondsA << " ns" << endl;
+    cout << NAME_B << ":\n\t" << fixed << nanoSecondsB << " ns" << endl;
 
-    cout << "==========Ending test." << endl;
+    cout << "========== Ending test." << endl;
     return 0;
 }
 

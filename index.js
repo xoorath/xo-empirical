@@ -138,6 +138,9 @@ function TryBeginTest() {
 				result += g_Test1.include + '\n';
 			}
 		}
+		else if(lines[i].indexOf('%test0.name%') > 0) {
+			result += '#define NAME_A \"' + g_Test0.name + '\" // generated\n';
+		}
 		else if(lines[i].indexOf('%test0.setup%') > 0) {
 			result += '    // Test 0: ' + g_Test0.name + '\n';
 			result += '    // Domain: ' + g_Test0.domain + '\n';
@@ -151,6 +154,9 @@ function TryBeginTest() {
 			result += '        ////////// Run (generated):\n';
 			result += g_Test0.run;
 			result += '        ////////// End Run (generated):\n';
+		}
+		else if(lines[i].indexOf('%test1.name%') > 0) {
+			result += '#define NAME_B \"' + g_Test1.name + '\" // generated\n';
 		}
 		else if(lines[i].indexOf('%test1.setup%') > 0) {
 			result += '    // Test 1: ' + g_Test1.name + '\n';
