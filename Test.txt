@@ -1,0 +1,55 @@
+Test
+	Name: SSE Dot Product
+	Domain: xo-math
+	Sub-Domain: Dot Product
+	Technology: SSE
+	Include: {
+	}
+	Setup: {
+		__m128 a = M128RAND;
+		__m128 b = M128RAND;
+		__m128 mask = _mm_castsi128_ps(_mm_set_epi32(0, 0xffffffff, 0xffffffff, 0xffffffff));
+		float dot;
+	}
+	Run: {
+		__m128 temp = _mm_and_ps(_mm_mul_ps(a, b), mask);
+		temp = _mm_hadd_ps(temp, temp);
+		temp = _mm_hadd_ps(temp, temp);
+		dot = _mm_cvtss_f32(temp);
+	}
+
+Test
+	Name: SSE 4.2 Dot Product
+	Domain: xo-math
+	Sub-Domain: Dot Product
+	Technology: SSE 4.2
+	Include: {
+	}
+	Setup: {
+		__m128 a = M128RAND;
+		__m128 b = M128RAND;
+		float dot;
+	}
+	Run: {
+		dot = _mm_cvtss_f32(_mm_dp_ps(a, b, 0x7f));
+	}
+
+Test
+	Name: Float Dot Product
+	Domain: none
+	Sub-Domain: Dot Product
+	Technology:
+	Include: {
+	}
+	Setup: {
+		float v1x = FLOATRAND;
+		float v1y = FLOATRAND;
+		float v1z = FLOATRAND;
+		float v2x = FLOATRAND;
+		float v2y = FLOATRAND;
+		float v2z = FLOATRAND;
+		float dot;
+	}
+	Run: {
+		dot = (v1x*v2x) + (v1y*v2y) + (v1y*v2y);
+	}
