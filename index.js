@@ -45,7 +45,7 @@ function ParseTest(text) {
 				handleRun = false;
 			}
 			else {
-				test.run += '    ' + text[i] + '\n';
+				test.run += '        ' + text[i] + '\n';
 			}
 
 		}
@@ -138,25 +138,33 @@ function TryBeginTest() {
 				result += g_Test1.include + '\n';
 			}
 		}
-		else if(lines[i].indexOf('%test0%') > 0) {
+		else if(lines[i].indexOf('%test0.setup%') > 0) {
 			result += '    // Test 0: ' + g_Test0.name + '\n';
 			result += '    // Domain: ' + g_Test0.domain + '\n';
 			result += '    // Sub-Domain: ' + g_Test0.subdomain + '\n';
 			result += '    // Technology: ' + g_Test0.technology + '\n\n';
-			result += '    // Setup:\n';
-			result += g_Test0.setup + '\n';
-			result += '    // Run:\n';
-			result += g_Test0.run + '\n';
+			result += '    ////////// Setup (generated):\n';
+			result += g_Test0.setup;
+			result += '    ////////// End Setup (generated):\n';
 		}
-		else if(lines[i].indexOf('%test1%') > 0) {
+		else if(lines[i].indexOf('%test0.run%') > 0) {
+			result += '        ////////// Run (generated):\n';
+			result += g_Test0.run;
+			result += '        ////////// End Run (generated):\n';
+		}
+		else if(lines[i].indexOf('%test1.setup%') > 0) {
 			result += '    // Test 1: ' + g_Test1.name + '\n';
 			result += '    // Domain: ' + g_Test1.domain + '\n';
 			result += '    // Sub-Domain: ' + g_Test1.subdomain + '\n';
 			result += '    // Technology: ' + g_Test1.technology + '\n\n';
-			result += '    // Setup:\n';
-			result += g_Test1.setup + '\n';
-			result += '    // Run:\n';
-			result += g_Test1.run + '\n';
+			result += '    ////////// Setup (generated):\n';
+			result += g_Test1.setup;
+			result += '    ////////// End Setup (generated):\n';
+		}
+		else if(lines[i].indexOf('%test1.run%') > 0) {
+			result += '        ////////// Run (generated):\n';
+			result += g_Test1.run;
+			result += '        ////////// End Run (generated):\n';
 		}
 		else {
 			result += lines[i] + '\n';
