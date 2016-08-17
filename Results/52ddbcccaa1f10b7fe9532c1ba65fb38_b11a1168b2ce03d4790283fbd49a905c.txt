@@ -1,24 +1,12 @@
 SSE 4.2 Dot Product beat SSE Dot Product
-	real:		6.941ns to 29.373ns
-	relative:	4.232x faster
+	real:		7.043ns to 28.754ns
+	relative:	4.083x faster
 SSE 4.2 Dot Product beat SSE Dot Product
-	real:		6.776ns to 35.177ns
-	relative:	5.191x faster
+	real:		7.195ns to 28.097ns
+	relative:	3.905x faster
 SSE 4.2 Dot Product beat SSE Dot Product
-	real:		11.197ns to 23.008ns
-	relative:	2.055x faster
+	real:		7.330ns to 28.052ns
+	relative:	3.827x faster
 SSE 4.2 Dot Product beat SSE Dot Product
-	real:		13.323ns to 22.877ns
-	relative:	1.717x faster
-SSE 4.2 Dot Product beat SSE Dot Product
-	real:		16.749ns to 20.516ns
-	relative:	1.225x faster
-SSE 4.2 Dot Product beat SSE Dot Product
-	real:		6.489ns to 34.369ns
-	relative:	5.296x faster
-SSE 4.2 Dot Product beat SSE Dot Product
-	real:		6.558ns to 32.487ns
-	relative:	4.954x faster
-SSE 4.2 Dot Product beat SSE Dot Product
-	real:		14.803ns to 21.556ns
-	relative:	1.456x faster
+	real:		7.332ns to 28.733ns
+	relative:	3.919x faster

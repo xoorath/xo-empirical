@@ -207,7 +207,7 @@ function TryBeginTest() {
 
 function CompileOutput() {
 	console.log('compiling...');
-	var clang = proc.spawn('clang++', ['-target', 'x86_64-pc-windows-gnu', '-msse4.2', '-std=c++11', 'Output/test.cpp']);
+	var clang = proc.spawn('clang++', ['-target', 'x86_64-pc-windows-gnu', '-msse4.2', '-O0', '-std=c++11', 'Output/test.cpp']);
 	clang.stdout.setEncoding('utf8');
 	clang.stdout.on('data', function (data) {
 		process.stdout.write(data.toString());
