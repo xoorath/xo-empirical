@@ -1,0 +1,42 @@
+SSE 4.2 Dot Product beat Float Dot Product
+	real:		8.095ns to 12.499ns
+	relative:	1.544x faster
+Float Dot Product beat SSE 4.2 Dot Product
+	real:		5.007ns to 20.581ns
+	relative:	4.110x faster
+Float Dot Product beat SSE 4.2 Dot Product
+	real:		5.202ns to 17.165ns
+	relative:	3.300x faster
+Float Dot Product beat SSE 4.2 Dot Product
+	real:		5.082ns to 22.185ns
+	relative:	4.365x faster
+Float Dot Product beat SSE 4.2 Dot Product
+	real:		4.839ns to 25.253ns
+	relative:	5.219x faster
+Float Dot Product beat SSE 4.2 Dot Product
+	real:		5.213ns to 17.537ns
+	relative:	3.364x faster
+SSE 4.2 Dot Product beat Float Dot Product
+	real:		8.279ns to 12.904ns
+	relative:	1.559x faster
+SSE 4.2 Dot Product beat Float Dot Product
+	real:		8.090ns to 10.307ns
+	relative:	1.274x faster
+SSE 4.2 Dot Product beat Float Dot Product
+	real:		7.451ns to 13.220ns
+	relative:	1.774x faster
+SSE 4.2 Dot Product beat Float Dot Product
+	real:		8.431ns to 13.234ns
+	relative:	1.570x faster
+Float Dot Product beat SSE 4.2 Dot Product
+	real:		5.256ns to 17.538ns
+	relative:	3.337x faster
+Float Dot Product beat SSE 4.2 Dot Product
+	real:		5.271ns to 20.506ns
+	relative:	3.890x faster
+SSE 4.2 Dot Product beat Float Dot Product
+	real:		7.920ns to 12.966ns
+	relative:	1.637x faster
+SSE 4.2 Dot Product beat Float Dot Product
+	real:		7.650ns to 13.507ns
+	relative:	1.766x faster

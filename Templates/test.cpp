@@ -2,6 +2,7 @@
 #include <random>
 #include <thread>
 #include <iostream>
+#include <fstream>
 #if defined(_MSC_VER)
 #   include <xmmintrin.h>
 #else
@@ -17,6 +18,9 @@
 
 #define NAME_A "" // %test0.name%
 #define NAME_B "" // %test1.name%
+#define HASH_A "" // %test0.hash%
+#define HASH_B "" // %test1.hash%
+#define RESULT_FILE "results.txt" // %results%
 
 using namespace std;
 
@@ -55,8 +59,8 @@ void TestB() {
 int main() {
     cout << "========== Starting test.\n";
     cout << "comparing:\n\t";
-    cout << NAME_A << "\n\t";
-    cout << NAME_B << endl;
+    cout << NAME_A << " (" << HASH_A << ")\n\t";
+    cout << NAME_B << " (" << HASH_B << ")" << endl;
 
     std::thread threadA(&TestA);
     std::thread threadB(&TestB);
@@ -81,6 +85,33 @@ int main() {
     cout.precision(3);
     cout << NAME_A << ":\n\t" << fixed << nanoSecondsA << " ns" << endl;
     cout << NAME_B << ":\n\t" << fixed << nanoSecondsB << " ns" << endl;
+
+    ofstream resultFile;
+    resultFile.open(RESULT_FILE, ios::out | ios::app);
+    bool failed = false;
+    if(resultFile.fail()) {
+        cout << "!!! writing results file failed.\n";
+        failed = true;
+    }
+    else if(TestACount > TestBCount) {
+        resultFile.precision(3);
+        resultFile << NAME_A << " beat " << NAME_B << "\n";
+        resultFile << "\treal:\t\t" << fixed << nanoSecondsA << "ns to " << nanoSecondsB << "ns\n";
+        resultFile << "\trelative:\t" << fixed << secondsB/secondsA << "x faster\n";
+    } else if(TestBCount > TestACount) {
+        resultFile.precision(3);
+        resultFile << NAME_B << " beat " << NAME_A << "\n";
+        resultFile << "\treal:\t\t" << fixed << nanoSecondsB << "ns to " << nanoSecondsA << "ns\n";
+        resultFile << "\trelative:\t" << fixed << secondsA/secondsB << "x faster\n";
+    }
+    else {
+        cout << "there was a tie.";
+        resultFile << NAME_A << " tied " << NAME_B << "\n";
+        resultFile << "\treal:\t\t" << fixed << nanoSecondsA << "ns\n";
+    }
+
+    if(!failed)
+        resultFile.close();
 
     cout << "========== Ending test." << endl;
     return 0;

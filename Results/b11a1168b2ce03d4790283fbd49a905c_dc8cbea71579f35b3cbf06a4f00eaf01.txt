@@ -1,0 +1,45 @@
+Float Dot Product beat SSE Dot Product
+	real:		4.437ns to 33.376ns
+	relative:	7.522x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.650ns to 32.952ns
+	relative:	7.087x faster
+Float Dot Product beat SSE Dot Product
+	real:		13.926ns to 20.270ns
+	relative:	1.456x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.611ns to 30.306ns
+	relative:	6.573x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.528ns to 31.163ns
+	relative:	6.882x faster
+Float Dot Product beat SSE Dot Product
+	real:		12.841ns to 20.293ns
+	relative:	1.580x faster
+Float Dot Product beat SSE Dot Product
+	real:		11.335ns to 21.212ns
+	relative:	1.871x faster
+Float Dot Product beat SSE Dot Product
+	real:		9.224ns to 22.824ns
+	relative:	2.475x faster
+Float Dot Product beat SSE Dot Product
+	real:		14.291ns to 19.801ns
+	relative:	1.386x faster
+Float Dot Product beat SSE Dot Product
+	real:		12.828ns to 19.475ns
+	relative:	1.518x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.556ns to 30.052ns
+	relative:	6.596x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.538ns to 33.598ns
+	relative:	7.403x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.119ns to 35.124ns
+	relative:	8.527x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.357ns to 34.148ns
+	relative:	7.838x faster
+Float Dot Product beat SSE Dot Product
+	real:		4.552ns to 33.370ns
+	relative:	7.331x faster

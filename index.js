@@ -1,5 +1,8 @@
 var fs = require('fs');
+var proc = require('child_process');
+var crypto = require('crypto');
 
+var g_AllTests;
 var g_Test0;
 var g_Test1;
 var g_Template;
@@ -84,6 +87,9 @@ function ParseTest(text) {
 			handleRun = true;
 		}
 	}
+
+	// md5, good enough for what we're doing.
+	test.hash = crypto.createHash('md5').update(JSON.stringify(test)).digest('hex');
 	return test;
 }
 
@@ -105,21 +111,18 @@ function FileLoaded(text) {
 		}
 	}
 
-	var tests = [];
+	g_AllTests = [];
 	for(var i = 0; i < testLines.length; ++i) {
-		tests.push(ParseTest(testLines[i]));
+		g_AllTests.push(ParseTest(testLines[i]));
 	}
-
-	g_Test0 = tests[0];
-	g_Test1 = tests[2];
-	TryBeginTest();
+	RunRandomTest();
 
 }
 
 function TemplateLoaded(text) {
 	console.log('template loaded. length: ', text.length);
 	g_Template = text;
-	TryBeginTest();
+	RunRandomTest();
 }
 
 function TryBeginTest() {
@@ -141,6 +144,9 @@ function TryBeginTest() {
 		else if(lines[i].indexOf('%test0.name%') > 0) {
 			result += '#define NAME_A \"' + g_Test0.name + '\" // generated\n';
 		}
+		else if(lines[i].indexOf('%test0.hash%') > 0) {
+			result += '#define HASH_A \"' + g_Test0.hash + '\" // generated\n';
+		}
 		else if(lines[i].indexOf('%test0.setup%') > 0) {
 			result += '    // Test 0: ' + g_Test0.name + '\n';
 			result += '    // Domain: ' + g_Test0.domain + '\n';
@@ -158,6 +164,9 @@ function TryBeginTest() {
 		else if(lines[i].indexOf('%test1.name%') > 0) {
 			result += '#define NAME_B \"' + g_Test1.name + '\" // generated\n';
 		}
+		else if(lines[i].indexOf('%test1.hash%') > 0) {
+			result += '#define HASH_B \"' + g_Test1.hash + '\" // generated\n';
+		}
 		else if(lines[i].indexOf('%test1.setup%') > 0) {
 			result += '    // Test 1: ' + g_Test1.name + '\n';
 			result += '    // Domain: ' + g_Test1.domain + '\n';
@@ -172,6 +181,15 @@ function TryBeginTest() {
 			result += g_Test1.run;
 			result += '        ////////// End Run (generated):\n';
 		}
+		else if(lines[i].indexOf('%results%') > 0) {
+			var filename = '';
+			if(g_Test0.hash.localeCompare(g_Test1.hash) < 0) {
+				filename = 'Results/' + g_Test0.hash + '_' + g_Test1.hash + '.txt';
+			} else {
+				filename = 'Results/' + g_Test1.hash + '_' + g_Test0.hash + '.txt';
+			}
+			result += '#define RESULT_FILE \"' + filename + '\" // generated\n';
+		}
 		else {
 			result += lines[i] + '\n';
 		}
@@ -183,7 +201,53 @@ function TryBeginTest() {
 		}
 
 		console.log("The file was saved!");
+		CompileOutput();
 	}); 
+}
+
+function CompileOutput() {
+	console.log('compiling...');
+	var clang = proc.spawn('clang++', ['-target', 'x86_64-pc-windows-gnu', '-msse4.2', '-std=c++11', 'Output/test.cpp']);
+	clang.stdout.setEncoding('utf8');
+	clang.stdout.on('data', function (data) {
+		process.stdout.write(data.toString());
+	});
+
+	clang.on('close', function (code) {
+		console.log('process exit code ' + code);
+		if(code === 0) {
+			RunCompiledOutput();
+		}
+	});
+}
+
+function RunCompiledOutput() {
+	console.log('running...');
+	var application = proc.exec('a.exe');
+	application.stdout.setEncoding('utf8');
+	application.stdout.on('data', function (data) {
+		process.stdout.write(data.toString());
+	});
+
+	application.on('close', function (code) {
+		console.log('process exit code ' + code);
+		if(code === 0) {
+			RunRandomTest();
+		}
+	});
+}
+
+function RunRandomTest() {
+	g_Test0 = null;
+	g_Test1 = null;
+	if(g_AllTests && g_AllTests.length > 1) {
+		g_Test0 = g_AllTests[Math.floor(Math.random()*g_AllTests.length)];
+		g_Test1 = g_AllTests[Math.floor(Math.random()*g_AllTests.length)];
+		while(g_Test0 === g_Test1) {
+			g_Test1 = g_AllTests[Math.floor(Math.random()*g_AllTests.length)];
+		}
+	}
+	TryBeginTest();
 }
 
 fs.readFile( __dirname + '/Test.txt', function (err, data) {
